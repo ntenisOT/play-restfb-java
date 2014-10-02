@@ -10,5 +10,6 @@ libraryDependencies ++= Seq(
   javaJdbc,
   javaEbean,
   cache,
-  javaWs
+  javaWs.
+  "com.restfb" % "restfb" % "1.6.16"
 )

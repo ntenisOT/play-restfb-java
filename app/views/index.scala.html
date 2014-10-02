@@ -1,7 +1,68 @@
-@(message: String)
-
 @main("Welcome to Play") {
+    <div id="fb-root">
 
-    @play20.welcome(message, style = "Java")
+    </div>
+    <script>
+        window.fbAsyncInit = function ( ) {
+            FB.init ( {
+                appId : '699976683425267',
+                xfbml : true,
+                version : 'v2.1'
+            } ) ;
 
+            FB.getLoginStatus ( function ( response ) {
+
+                if ( response.status === 'connected' ) {
+
+                    // the user is logged in and has authenticated your
+                    // app, and response.authResponse supplies
+                    // the user's ID, a valid access token, a signed
+                    // request, and the time the access token
+                    // and signed request each expire
+
+                    var uid = response.authResponse.userID ;
+                    var accessToken = response.authResponse.accessToken ;
+
+                    window.location.href = '/authUser/' + accessToken ;
+
+                } else if ( response.status === 'not_authorized' ) {
+
+                    // the user is logged in to Facebook,
+                    // but has not authenticated your app
+
+                    FB.login ( function ( response ) {
+
+                    if ( response.authResponse ) {
+                        var accessToken = response.authResponse.accessToken ;
+                        window.location.href = '/authUser/' + accessToken ;
+                    } else {
+                        console.log ( 'User cancelled login or did not fully authorize.' ) ;
+                    }
+                    }, { scope : 'public_profile, email, user_friends' } ) ;
+
+                } else {
+                    // the user isn't logged in to Facebook.
+
+                    FB.login ( function ( response ) {
+                    if ( response.authResponse ) {
+                        var accessToken = response.authResponse.accessToken ;;
+                        window.location.href = '/authUser/' + accessToken ;
+                    } else {
+                        console.log ( 'User cancelled login or did not fully authorize.' ) ;
+                    }
+                    }, { scope : 'public_profile, email, user_friends' } ) ;
+                }
+            } ) ;
+        } ;
+
+        ( function ( d, s, id ) {
+        var js, fjs = d.getElementsByTagName ( s )[ 0 ] ;
+        if ( d.getElementById ( id ) ) { return ; }
+        js = d.createElement ( s ) ; js.id = id ;
+        js.src = "//connect.facebook.net/en_US/sdk.js" ;
+        fjs.parentNode.insertBefore ( js, fjs ) ;
+        } ( document, 'script', 'facebook-jssdk' ) ) ;
+
+
+    </script>
 }
